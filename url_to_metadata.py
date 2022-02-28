@@ -9,6 +9,8 @@ from tqdm.notebook import tqdm
 
 SSQL = SnowflakeConfig.load(section_name="edp")
 
+get_ipython().run_line_magic('load_ext', 'nb_black')
+
 
 names = dict(
     links="link_lookup.pkl",
@@ -67,7 +69,7 @@ def get_long_links(link_list: List, names: Dict[str, str]) -> List:
     print(f"""Valid long links:      {len(longlink_list)}""")
 
     return longlink_list
-    
+
 
 def get_asinisbns(longlink_list: List, names: Dict[str, str]) -> List:
     """
@@ -75,14 +77,14 @@ def get_asinisbns(longlink_list: List, names: Dict[str, str]) -> List:
     Returns a list of tuples (link, isbn/asin)
     """
 
-    exp = names["regex_str"]
+    regex_str = names["regex_str"]
     asinisbn_list = []
 
     for (link, longlink) in longlink_list:
-        match = re.search(exp, longlink)
-        try:
+        match = re.search(regex_str, longlink)
+        if match is not None:
             asinisbn_list.append((link, match[0]))
-        except IndexError:
+        else:
             continue
 
     print(f"""Number of ISBNs/ASINs: {len(asinisbn_list)}""")

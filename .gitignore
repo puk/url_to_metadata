@@ -152,3 +152,5 @@ cython_debug/
 #.idea/
 Untitled.ipynb
 *.xlsx
+old/url_to_metadata.ipynb
+do_the_work.ipynb
